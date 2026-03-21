@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int data;
+    struct node *next;
+};
+struct node *top=NULL;
+void push(int x){
+        struct node *newnode=(struct node*)malloc(sizeof(struct node));
+        newnode->data=x;
+        newnode->next=NULL;
+        if(top==NULL){
+            top=newnode;
+        }
+        else{
+            newnode->next=top;
+            top=newnode;
+        }
+        printf("Pushed the element %d",x);
+}
+void pop(){
+    if(top==NULL){
+        printf("Stack underflow\n");
+        return;
+    }
+    struct node *temp=top;
+    top=temp->next;
+    free(temp);
+    printf("Popped element is %d\n",temp->data);
+    
+}
+void peek(){
+     if(top==NULL){
+         printf("Stack undeflow\n");
+         return;
+     }
+     struct node *temp=top;
+     printf("Topmost element is %d\n",temp->data);
+}
+void display(){
+    if(top==NULL){
+        printf("Stack empty\n");
+        return;
+    }
+    struct node *temp=top;
+    while(temp!=NULL){
+        printf("%d ",temp->data);
+        temp=temp->next;
+        
+    }
+}
+int main(){
+    int n;
+    scanf("%d",&n);
+    for(int i=0;i<n-1;i++){
+        
+    
+    int ch;
+    
+    scanf("%d",&ch);
+    
+    if(ch==1){
+        int value;
+        scanf("%d",&value);
+        push(value);
+    }
+    else if(ch==2){
+        pop();
+    }
+    else if(ch==3){
+        peek();
+    }
+    else if(ch==4){
+        display();
+    }
+    else{
+        printf("Invalid input\n");
+    }
+    }
+}
