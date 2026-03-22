@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node{
+    char data[101];
+    struct node *next;
+    
+};
+struct node *top=NULL;
+void push(char *name){
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    strcpy(newnode->data,name);
+    newnode->next=top;
+    top=newnode;
+}
+void pop(){
+    if(top==NULL){
+        printf("Stack underflow.\n");
+        return;
+    }
+    struct node *temp=top;
+    top=top->next;
+    free(temp);
+    
+}
+void Top(){
+    if(top==NULL){
+        printf("Stack empty\n");
+        
+    }
+    printf("Topmost element is %s\n",top->data);
+}
+
+void isempty(){
+    if(top==NULL){
+        printf("true\n");
+    }
+    else{
+        printf("false\n");
+    }
+}
+void size(){
+    int count;
+    struct node *temp=top;
+    while(temp!=NULL){
+        count++;
+        temp=temp->next;
+    }
+    printf("%d",count);
+}
+int main(){
+    int n;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        char ch[20];
+        scanf("%s",&ch);
+        if(strcmp(ch,"Push")==0){
+            char elm[20];
+            scanf("%s ",&elm);
+            push(elm);
+        }
+        else if(strcmp(ch,"Pop")==0){
+            pop();
+        }
+        else if(strcmp(ch,"Top")==0){
+            Top();
+        }
+        else if(strcmp(ch,"isEmpty")==0){
+            isempty();
+        }
+        else if(strcmp(ch,"Size")==0){
+            size();
+        }
+        else{
+            printf("Invalid input\n");
+        }
+    }
+    return 0;
+}
