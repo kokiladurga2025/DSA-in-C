@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define MAX 100
+
+char stack[MAX];
+int top=-1;
+void push(char ch){
+    stack[++top]=ch;
+}
+char pop(){
+    return stack[top--];
+}
+char peek(){
+    return stack[top];
+}
+int isEmpty(){
+    return top==-1;
+}
+int precedence(char ch){
+    if(ch=='+' || ch=='-') return 1;
+    if(ch=='*' || ch=='/') return 2;
+    return 0;
+}
+
+int main(){
+    char infix[MAX],postfix[MAX];
+    int k=0;
+    char ch;
+    fgets(infix,MAX,stdin);
+    for(int i=0;infix[i]!='\0';i++){
+        ch=infix[i];
+        if(ch==' ' || ch=='\n'){
+            continue;
+        }
+        if(isalnum(ch)){
+            postfix[k++]=ch;
+            postfix[k++]=' ';
+        }
+        else if(ch=='('){
+            push(ch);
+            
+        }
+        else if(ch==')'){
+            while(!isEmpty() && peek()!='(' && precedence(peek())>=precedence(ch)){
+                postfix[k++]=pop();
+                postfix[k++]=' ';
+            }
+            pop();
+        }
+        else{
+            while(!isEmpty() && precedence(peek())>=precedence(ch)){
+                postfix[k++]=pop();
+                postfix[k++]=' ';
+            }
+            push(ch);
+        }
+        
+    }
+    while(!isEmpty()){
+        postfix[k++]=pop();
+        postfix[k++]=' ';
+    }
+    postfix[k]='\0';
+    printf("%s",postfix);
+    return 0;
+}
