@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#define MAX 100
+
+char stack[MAX];
+int top=-1;
+void push(char ch){
+    stack[++top]=ch;
+}
+int pop(){
+    return stack[top--];
+}
+int main(){
+    char input[MAX];
+    fgets(input,MAX,stdin);
+    char *token=strtok(input," ");
+    while(token!=NULL){
+        if(token[0]=='+' || token[0]=='-' || token[0]=='*' || token[0]=='/'){
+            int b=pop();
+            int a=pop();
+            if(token[0]=='+'){
+                push(a+b);
+            }
+            else if(token[0]=='-'){
+                push(a-b);
+            }
+            else if(token[0]=='*'){
+                push(a*b);
+            }
+            else if(token[0]=='/'){
+                push(a/b);
+            }
+        }
+        else{
+            push(atoi(token));
+        }
+        token=strtok(NULL," ");
+    }
+    printf("%d",pop());
+    return 0;
+}
